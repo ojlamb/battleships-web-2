@@ -1,4 +1,11 @@
 <h1>Hello, <%= @name %>! Let the games begin!</h1>
 
 <h2>Enter firing coordinates!</h2>
-<input type="text" name="coordinates"></input>
+<form action="fire_shot" method="post">
+  <input type="text" name="coordinates"></input>
+  <input type="submit" value="FIRE!"></input>
+</form>
+
+<% if @hit %>
+  <h4>HIT!!</h4>
+<% end %>

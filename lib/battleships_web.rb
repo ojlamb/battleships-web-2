@@ -1,4 +1,5 @@
 require 'sinatra/base'
+require 'battleships'
 
 class BattleshipsWeb < Sinatra::Base
   get '/' do
@@ -15,6 +16,9 @@ class BattleshipsWeb < Sinatra::Base
     else
       @name = params[:name]
     end
+
+    $game = initialize_game
+    
     erb :game_page
   end
 
@@ -22,4 +26,20 @@ class BattleshipsWeb < Sinatra::Base
 
   # start the server if ruby file executed directly
   run! if app_file == $0
+
+  post '/fire_shot' do
+    puts "from within fire_shot method: #{@game}"
+    coordinates = (params[:coordinates]).upcase.to_sym
+    $game.player_1.shoot coordinates
+    @hit = true
+    erb :game_page
+  end
+
+  def initialize_game
+    game = Game.new Player, Board
+    game.player_1.name = @name
+    game
+  end
+
+
 end

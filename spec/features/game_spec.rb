@@ -11,7 +11,18 @@ feature 'Playing a game' do
     expect(page).to have_content("Enter firing coordinates!")
   end
 
-  scenario 'can input firing coordinates' do 
-    fill_in "coordinates", with: :B4
+  context "when a hit occurs" do
+    scenario "'HIT!' is printed to the screen" do
+      game = Game.new Player, Board
+      allow_any_instance_of(Board).to receive(:receive_shot).with(:B4).and_return(:hit)
+      fill_in "coordinates", with: "B4"
+      click_on "FIRE!"
+      expect(page).to have_content 'HIT!!'
+    end
   end
+
+  context 'when user submits a coordinate in lowercase' do 
+
+  end
+
 end
