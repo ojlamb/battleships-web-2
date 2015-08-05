@@ -9,8 +9,13 @@ class BattleshipsWeb < Sinatra::Base
     erb :new_game
   end
 
-  get '/game_page' do 
-      erb :game_page
+  post '/game_page' do
+    if params[:name] == ""
+      @name = "Player1"
+    else
+      @name = params[:name]
+    end
+    erb :game_page
   end
 
   set :views, proc { File.join(root, '..', 'views') }

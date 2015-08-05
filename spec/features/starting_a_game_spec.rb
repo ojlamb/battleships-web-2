@@ -9,8 +9,16 @@ feature 'Starting a new game' do
 
   scenario 'When I enter my name, I am taken to the game page' do
     visit '/new_game'
-    fill_in('name', with: 'twat')
+    fill_in('name', with: 'Andy')
     click_button('Submit')
-    expect(page).to have_content("Let the games begin!")
+    expect(page).to have_content("Hello, Andy! Let the games begin!")
+  end
+
+  context 'when user does not enter name' do
+    scenario "user is given name 'Player1'" do
+      visit '/new_game'
+      click_button('Submit')
+      expect(page).to have_content("Hello, Player1! Let the games begin!")
+    end
   end
 end
