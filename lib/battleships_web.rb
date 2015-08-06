@@ -1,7 +1,10 @@
 require 'sinatra/base'
 require 'battleships'
+require 'grid_builder'
 
 class BattleshipsWeb < Sinatra::Base
+  include Gridbuilder
+
   get '/' do
     erb :index
   end
@@ -37,6 +40,11 @@ class BattleshipsWeb < Sinatra::Base
     game = Game.new Player, Board
     game.player_1.name = @name
     game
+  end
+
+  def randomly_place_ships player
+    ship_types = [:submarine, :destroyer, :cruiser, :battleship, :aircraft_carrier]
+    available_coordinates = build_grid
   end
 
 end
