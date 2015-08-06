@@ -4,14 +4,14 @@ module Gridbuilder
     letters = []
 
     letter = "A"
-    10.times do
+    Board::SIZE.times do
       letters << letter
       letter = letter.next
     end
 
     letters.each do |letter|
       x = 1
-      10.times do 
+      Board::SIZE.times do 
         grid << ((letter + x.to_s).to_sym)
         x += 1
       end
