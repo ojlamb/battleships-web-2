@@ -13,6 +13,24 @@ feature 'Playing a game' do
     end
   end
 
+  scenario 'when new game starts, user should see a board' do
+    expect(page).to have_content(
+"    ABCDEFGHIJ
+  ------------
+ 1|          |1
+ 2|          |2
+ 3|          |3
+ 4|          |4
+ 5|          |5
+ 6|          |6
+ 7|          |7
+ 8|          |8
+ 9|          |9
+10|          |10
+  ------------
+   ABCDEFGHIJ")
+ end
+
   context "when a hit occurs" do
     scenario "'HIT!' is printed to the screen" do
       game = Game.new Player, Board
@@ -52,5 +70,7 @@ feature 'Playing a game' do
       expect(page).to have_content 'MISS!!'
     end
   end
+
+
 
 end
