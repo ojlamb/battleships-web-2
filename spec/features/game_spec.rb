@@ -7,7 +7,7 @@ feature 'Playing a game' do
     click_on 'Submit'
   end
 
-  scenario 'when new game starts, user sees firing coordinate text' do 
+  scenario 'when new game starts, user sees firing coordinate text' do
     expect(page).to have_content("Enter firing coordinates!")
   end
 
@@ -21,8 +21,30 @@ feature 'Playing a game' do
     end
   end
 
-  context 'when user submits a coordinate in lowercase' do 
+  context 'when user submits a coordinate in lowercase' do
+    scenario "'HIT!' is printed to the screen" do
+      game = Game.new Player, Board
+      allow_any_instance_of(Board).to receive(:receive_shot).with(:B4).and_return(:hit)
+      fill_in "coordinates", with: "b4"
+      click_on "FIRE!"
+      expect(page).to have_content 'HIT!!'
+    end
+  end
 
+  scenario "when there is a ship on the board and a shot hits" do
+    $game.player_2.place_ship(Ship.cruiser, :B4)
+    fill_in "coordinates", with: "b4"
+    click_on "FIRE!"
+    expect(page).to have_content 'HIT!!'
+  end
+
+
+  scenario "when there is a ship on the board and a shot misses" do
+    game = Game.new Player, Board
+    game.player_2.place_ship(Ship.cruiser, :B4)
+    fill_in "coordinates", with: "j4"
+    click_on "FIRE!"
+    expect(page).to have_content 'MISS!!'
   end
 
 end

@@ -7,12 +7,14 @@ feature 'Starting a new game' do
     expect(page).to have_field("name")
   end
 
-  context 'When I enter my name, I am taken to the game page' do
+  context 'When I enter my name' do
+    scenario 'I am taken to the game page' do
     visit '/new_game'
     fill_in('name', with: 'Andy')
     click_button('Submit')
     expect(page).to have_content("Hello, Andy! Let the games begin!")
   end
+end
 
   context 'when user does not enter name' do
     scenario "user is given name 'Player1'" do
