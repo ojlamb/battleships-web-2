@@ -18,6 +18,7 @@ class BattleshipsWeb < Sinatra::Base
     end
     $game = initialize_game
     $game.player_1.name = @name
+    $game.player_2.place_ship(Ship.cruiser, :A1)
     erb :game_page
   end
 
