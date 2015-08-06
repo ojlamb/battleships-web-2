@@ -16,8 +16,8 @@ class BattleshipsWeb < Sinatra::Base
     else
       @name = params[:name]
     end
-
     $game = initialize_game
+    $game.player_1.name = @name
     erb :game_page
   end
 
@@ -27,8 +27,8 @@ class BattleshipsWeb < Sinatra::Base
   run! if app_file == $0
 
   post '/fire_shot' do
+    @name = $game.player_1.name
     coordinates = (params[:coordinates]).upcase.to_sym
-    puts "coordinates"
     @hit = true if ($game.player_1.shoot coordinates) == :hit
     erb :game_page
   end
