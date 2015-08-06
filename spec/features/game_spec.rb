@@ -29,14 +29,30 @@ feature 'Playing a game' do
         ------------
          ABCDEFGHIJ")
     end
+
+    scenario "user does NOT see 'MISS!!' on the screen" do 
+      expect(page).to_not have_content("MISS!!")
+    end
+
+    scenario "player_2's ships have all been randomly placed" do
+      game = Game.new Player, Board
+      expect(game.player_2.board.ships.count).to eq 5
+    end
   end
 
   context "when a hit occurs" do
-    scenario "'HIT!' is printed to the screen" do
+    before :each do
       allow_any_instance_of(Board).to receive(:receive_shot).with(:B4).and_return(:hit)
       fill_in "coordinates", with: "B4"
       click_on "FIRE!"
+    end
+
+    scenario "'HIT!' is printed to the screen" do
       expect(page).to have_content 'HIT!!'
+    end
+
+    scenario "'MISS!!' is NOT printed to the screen" do 
+      expect(page).to_not have_content 'MISS!!'
     end
   end
 
@@ -46,6 +62,22 @@ feature 'Playing a game' do
       fill_in "coordinates", with: "b4"
       click_on "FIRE!"
       expect(page).to have_content 'HIT!!'
+    end
+  end
+
+  context "when a miss occurs" do
+    before :each do
+      allow_any_instance_of(Board).to receive(:receive_shot).with(:B4).and_return(:miss)
+      fill_in "coordinates", with: "B4"
+      click_on "FIRE!"
+    end
+
+    scenario "'MISS!!' is printed to the screen" do
+      expect(page).to have_content 'MISS!!'
+    end
+
+    scenario "'HIT!!' is NOT printed to the screen" do 
+      expect(page).to_not have_content 'HIT!!'     
     end
   end
 
