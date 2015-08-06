@@ -16,6 +16,7 @@ feature 'Starting a new game' do
       click_button('Submit')
       expect(current_path).to eq '/game_page'
     end
+
   end
 
   context 'when user does not enter name' do
