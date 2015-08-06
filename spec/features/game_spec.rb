@@ -7,14 +7,15 @@ feature 'Playing a game' do
     click_on 'Submit'
   end
 
-  scenario 'when new game starts, user sees firing coordinate text' do 
-    expect(page).to have_content("Enter firing coordinates!")
+  context 'when new game starts' do
+    scenario 'user sees firing coordinate text' do 
+      expect(page).to have_content("Enter firing coordinates!")
+    end
   end
 
   context "when a hit occurs" do
     scenario "'HIT!' is printed to the screen" do
-      game = Game.new Player, Board
-      allow_any_instance_of(Board).to receive(:receive_shot).with(:B4).and_return(:hit)
+      #allow_any_instance_of(Board).to receive(:receive_shot).with(:B4).and_return(:hit)
       fill_in "coordinates", with: "B4"
       click_on "FIRE!"
       expect(page).to have_content 'HIT!!'
