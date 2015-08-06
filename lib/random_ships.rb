@@ -1,26 +1,33 @@
 module Randomships
+
   def randomly_place_ships game
-    ship_types = [:submarine, :destroyer, :cruiser, :battleship, :aircraft_carrier]
+    @ship_types = [:submarine, :destroyer, :cruiser, :battleship, :aircraft_carrier]
     available_coordinates = build_grid
 
     until game.player_2.board.ships.count == 5 do
       begin
-        ship_type = ship_types.first
+        ship_type = @ship_types.first
+        ship = create_ship(ship_type)
         random_coordinate = available_coordinates.sample
         random_orientation = [:horizontally, :vertically].sample
-        ship = create_ship(ship_type)
 
         game.player_2.place_ship(ship, random_coordinate, random_orientation)
 
-        ship_types.shift
-        coordinate_index = available_coordinates.index{|i| i == random_coordinate}
-        available_coordinates.slice!(coordinate_index)
+        remove_ship_and_coordinate_from_loop(available_coordinates, random_coordinate)
         
       rescue RuntimeError
         retry
       end
     end
+  end
 
+
+  private
+
+  def remove_ship_and_coordinate_from_loop available_coordinates, random_coordinate
+    @ship_types.shift
+    coordinate_index = available_coordinates.index{|i| i == random_coordinate}
+    available_coordinates.slice!(coordinate_index)
   end
 
   def create_ship ship_type
@@ -33,14 +40,24 @@ module Randomships
 
   def build_grid
     grid = []
-    letters = []
+    letters = letter_generator
+    generate_coordinates(letters, grid)
 
+    grid
+  end
+
+  def letter_generator
+    letters = []
     letter = "A"
     Board::SIZE.times do
       letters << letter
       letter = letter.next
     end
 
+    letters
+  end
+
+  def generate_coordinates letters, grid
     letters.each do |letter|
       x = 1
       Board::SIZE.times do 
@@ -48,7 +65,6 @@ module Randomships
         x += 1
       end
     end
-    grid
   end
 
 end
