@@ -1,7 +1,10 @@
 require 'sinatra/base'
 require 'battleships'
+require_relative 'game'
+require_relative 'random_ships.rb'
 
 class BattleshipsWeb < Sinatra::Base
+
   get '/' do
     erb :index
   end
@@ -43,7 +46,12 @@ class BattleshipsWeb < Sinatra::Base
   post '/fire_shot' do
     @name = $game.player_1.name
     coordinates = (params[:coordinates]).upcase.to_sym
-    @hit = true if ($game.player_1.shoot coordinates) == :hit
+    if ($game.player_1.shoot coordinates) == :hit
+      @hit = true
+    else
+      @hit = false
+    end
+
     erb :game_page
   end
 
