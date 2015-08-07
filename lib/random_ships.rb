@@ -15,7 +15,29 @@ module Randomships
 
         # don't need to remove coordinate from array, actually. But better because it's faster?
         remove_ship_and_coordinate_from_loop(available_coordinates, random_coordinate)
-        
+
+      rescue RuntimeError
+        retry
+      end
+    end
+  end
+
+def randomly_place_my_ships game
+    @ship_types = [:submarine, :destroyer, :cruiser, :battleship, :aircraft_carrier]
+    available_coordinates = build_grid
+
+    until game.player_1.board.ships.count == 5 do
+      begin
+        ship_type = @ship_types.first
+        ship = create_ship(ship_type)
+        random_coordinate = available_coordinates.sample
+        random_orientation = [:horizontally, :vertically].sample
+
+        game.player_1.place_ship(ship, random_coordinate, random_orientation)
+
+        # don't need to remove coordinate from array, actually. But better because it's faster?
+        remove_ship_and_coordinate_from_loop(available_coordinates, random_coordinate)
+
       rescue RuntimeError
         retry
       end
@@ -61,7 +83,7 @@ module Randomships
   def generate_coordinates letters, grid
     letters.each do |letter|
       x = 1
-      Board::SIZE.times do 
+      Board::SIZE.times do
         grid << ((letter + x.to_s).to_sym)
         x += 1
       end

@@ -14,20 +14,7 @@ feature 'Playing a game' do
 
     scenario 'user should see a board' do
       expect(page).to have_content(
-      "  ABCDEFGHIJ
-        ------------
-       1|          |1
-       2|          |2
-       3|          |3
-       4|          |4
-       5|          |5
-       6|          |6
-       7|          |7
-       8|          |8
-       9|          |9
-      10|          |10
-        ------------
-         ABCDEFGHIJ")
+      "  ABCDEFGHIJ")
     end
 
     scenario "user does NOT see 'MISS!!' on the screen" do
@@ -54,6 +41,21 @@ feature 'Playing a game' do
     scenario "'MISS!!' is NOT printed to the screen" do
       expect(page).to_not have_content 'MISS!!'
     end
+  end
+
+  scenario "when a hit occurs and the ship sinks" do
+    allow_any_instance_of(Board).to receive(:receive_shot).with(:B4).and_return(:sunk)
+    fill_in "coordinates", with: "B4"
+    click_on "FIRE!"
+    expect(page).to have_content 'Ship Sunk'
+  end
+
+  scenario "when firing at the same point twice" do
+    2.times do
+      fill_in "coordinates", with: "B4"
+      click_on "FIRE!"
+    end
+    expect(page).to have_content 'ALREADY SHOT THERE'
   end
 
   context 'when user submits a successful coordinate in lowercase' do
