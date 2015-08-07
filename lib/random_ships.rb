@@ -13,6 +13,7 @@ module Randomships
 
         game.player_2.place_ship(ship, random_coordinate, random_orientation)
 
+        # don't need to remove coordinate from array, actually. But better because it's faster?
         remove_ship_and_coordinate_from_loop(available_coordinates, random_coordinate)
         
       rescue RuntimeError
