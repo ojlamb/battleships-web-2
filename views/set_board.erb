@@ -1,0 +1,18 @@
+<h1>Hello, <%= @name %>! Let the games begin!</h1>
+
+<h2>Place YOUR SHIPS!</h2>
+<form method="post">
+   <select name="ship">
+      <option value="submarine">Submarine</option>
+      <option value="destroyer">Destroyer</option>
+      <option value="cruiser">Cruiser</option>
+      <option value="battleship">Battleship</option>
+      <option value="aircraft_carrier">Aircraft Carrier</option>
+    </select>
+
+   <input name="coordinate" type="text">
+   <select name="direction">
+   <option value="horizontally">Horizontally to the right</option>
+   <option value=:vertically>Vertically down</option>
+   <input value="Submit" type="submit">
+ </form>

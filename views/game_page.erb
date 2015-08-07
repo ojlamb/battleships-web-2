@@ -6,7 +6,15 @@
   <input type="submit" value="FIRE!"></input>
 </form>
 
-<pre> <%= $game.own_board_view $game.player_1 %> </pre>
+<div id="Opponent's board">
+  <h1>Opponent's Board</h1>
+  <pre> <%= $game.opponent_board_view $game.player_1 %> </pre>
+</div>
+
+<div id ="My Board">
+  <h1>My Board</h1>
+  <pre> <%= $game.own_board_view $game.player_1 %> </pre>
+</div>
 
 <% if @hit %>
   <h4>HIT!!</h4>

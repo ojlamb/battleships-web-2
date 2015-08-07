@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 feature 'Starting a new game' do
-    
+
   context 'when on new game screen' do
     scenario 'user is asked to enter name' do
       visit '/new_game'
