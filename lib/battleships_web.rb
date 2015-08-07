@@ -14,29 +14,30 @@ class BattleshipsWeb < Sinatra::Base
   end
 
   post '/game_page' do
-    # if params[:name] == ""
-    #   @name = "Player1"
-    # else
-    #   @name = params[:name]
-    # end
-    $game.player_1.name = @name
-    $game.player_2.place_ship(Ship.cruiser, :A1)
-    erb :game_page
-  end
-
-  get '/set_board' do
-    erb :set_board
-  end
-
-  post '/set_board' do
     if params[:name] == ""
       @name = "Player1"
     else
       @name = params[:name]
     end
     $game = initialize_game
-    erb :set_board
+    $game.player_1.name = @name
+    # $game.player_2.place_ship(Ship.cruiser, :A1)
+    erb :game_page
   end
+
+  # get '/set_board' do
+  #   erb :set_board
+  # end
+
+  # post '/set_board' do
+  #   if params[:name] == ""
+  #     @name = "Player1"
+  #   else
+  #     @name = params[:name]
+  #   end
+  #   $game = initialize_game
+  #   erb :set_board
+  # end
 
   set :views, proc { File.join(root, '..', 'views') }
 
