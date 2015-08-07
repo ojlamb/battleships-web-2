@@ -16,8 +16,10 @@
   <pre> <%= $game.own_board_view $game.player_1 %> </pre>
 </div>
 
-<% if @hit == true %>
+<% if @hit == true && @sunk == true %>
+  <h4>HIT!! Ship Sunk!</h4>
+<% elsif @hit == true %>
   <h4>HIT!!</h4>
-<% elsif @hit == false %>
-  <h4>MISS!!</h4>
+<% else @hit == false%>
+  <h4>MISS!!<h4>
 <% end %>
