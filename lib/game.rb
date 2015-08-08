@@ -12,5 +12,6 @@ class Game
     player_2.opponent = player_1
 
     randomly_place_ships self
+    randomly_place_my_ships self
   end
 end

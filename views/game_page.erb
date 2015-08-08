@@ -17,9 +17,15 @@
 </div>
 
 <% if @hit == true && @sunk == true %>
-  <h4>HIT!! Ship Sunk!</h4>
+  <h3>HIT!! Ship Sunk!</h3>
 <% elsif @hit == true %>
-  <h4>HIT!!</h4>
-<% else @hit == false%>
-  <h4>MISS!!<h4>
+  <h3>HIT!!</h3>
+<% elsif @hit == false%>
+  <h3>MISS!!<h3>
+<% else %>
+  <h3>Try a Shot!</h3>
+<% end %>
+
+<% if @already_shot_there == true %>
+  <h3>(You ALREADY SHOT THERE!!!)</h3>
 <% end %>

@@ -5,6 +5,8 @@ require_relative 'random_ships.rb'
 
 class BattleshipsWeb < Sinatra::Base
 
+  enable :sessions
+
   get '/' do
     erb :index
   end
@@ -14,30 +16,31 @@ class BattleshipsWeb < Sinatra::Base
   end
 
   post '/game_page' do
+    # @current_player = session["current_player"]
     if params[:name] == ""
-      @name = "Player1"
+      if session["current_player"] == nil
+        @player1 = "Player1"
+        session["current_player"] = "Player1"
+      else
+        @player2 = "Player2"
+        session["current_player"] = "Player2"
+      end
+      p session["current_player"]
     else
       @name = params[:name]
+      if session["current_player"] == nil
+        @player1 = @name
+        session["current_player"] = @name
+      else
+        @player2 = @name
+        session["current_player"] = @name
+      end
+      p session["current_player"]
     end
-    $game = initialize_game
+    $game ? $game : $game = initialize_game
     $game.player_1.name = @name
-    # $game.player_2.place_ship(Ship.cruiser, :A1)
     erb :game_page
   end
-
-  # get '/set_board' do
-  #   erb :set_board
-  # end
-
-  # post '/set_board' do
-  #   if params[:name] == ""
-  #     @name = "Player1"
-  #   else
-  #     @name = params[:name]
-  #   end
-  #   $game = initialize_game
-  #   erb :set_board
-  # end
 
   set :views, proc { File.join(root, '..', 'views') }
 
@@ -47,12 +50,21 @@ class BattleshipsWeb < Sinatra::Base
   post '/fire_shot' do
     @name = $game.player_1.name
     coordinates = (params[:coordinates]).upcase.to_sym
+    begin
     shotspot = $game.player_1.shoot coordinates
       if shotspot == :hit
         @hit = true
+      elsif shotspot == :sunk
+        @hit = true
+        @sunk = true
       else
         @hit = false
       end
+    rescue
+      @already_shot_there = true
+    end
+    switch_players
+    p session["current_player"]
     erb :game_page
   end
 
@@ -60,6 +72,17 @@ class BattleshipsWeb < Sinatra::Base
     game = Game.new Player, Board
     game.player_1.name = @name
     game
+  end
+
+  def switch_players
+    @name = session["current_player"].freeze
+    if @name == @player1
+      session["current_player"] = @player2
+    elsif @current_player == @player2
+      session["current_player"] = @player1
+    else
+      session["current_player"] = @player1
+    end
   end
 
 end
