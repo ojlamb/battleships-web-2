@@ -48,15 +48,11 @@ class BattleshipsWeb < Sinatra::Base
     @name = $game.player_1.name
     coordinates = (params[:coordinates]).upcase.to_sym
     shotspot = $game.player_1.shoot coordinates
-    p shotspot
-    if shotspot == :hit
-      @hit = true
-    elsif shotspot == :sunk
-      @hit = true
-      @sunk = true
-    else
-      @hit = false
-    end
+      if shotspot == :hit
+        @hit = true
+      else
+        @hit = false
+      end
     erb :game_page
   end
 
